@@ -32,10 +32,22 @@ export class AssetsService {
 
   public getAssets$(): Observable<Asset[]> {
     return of(this.fakeData).pipe(
-      delay(3000),
+      delay(500),
       map((data) => {
-        if (Math.random() < 0.5) {
+        if (Math.random() < 0.1) {
           throw new Error("No assets found");
+        }
+        return data;
+      })
+    );
+  }
+
+  public getAssetById$(id: number): Observable<Asset> {
+    const asset = this.fakeData.find((a) => a.id == id);
+    return of(asset).pipe(
+      map((data) => {
+        if (!data) {
+          throw new Error("Asset not found");
         }
         return data;
       })
