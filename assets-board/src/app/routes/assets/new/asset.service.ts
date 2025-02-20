@@ -4,9 +4,7 @@ import { Asset } from "@domain/asset.type";
 import { AssetsRepository } from "app/api/assets.repository";
 import { catchError, Observable, Subject, switchMap } from "rxjs";
 
-@Injectable({
-  providedIn: "root",
-})
+@Injectable()
 export class AssetService {
   private assetRepository = inject(AssetsRepository);
 

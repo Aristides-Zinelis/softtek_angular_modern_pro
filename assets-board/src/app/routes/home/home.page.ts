@@ -7,8 +7,14 @@ import { AssetsService } from "./assets.service";
 @Component({
   selector: "lab-home",
   imports: [AssetsListComponent, RouterLink],
-  template: `<lab-assets-list [assets]="assets()" />
-    <p>Add a <a routerLink="/assets/new">new asset</a></p> `,
+  template: `
+    @switch(assetsStatus()) { @case('Loading') {
+    <aside aria-busy="true">Loading...</aside>
+    } @case('Resolved') { @defer(){
+    <lab-assets-list [assets]="assets()" />
+    } } }
+    <p>Add a <a routerLink="/assets/new">new asset</a></p>
+  `,
   styles: ``,
 })
 export default class HomePage {
