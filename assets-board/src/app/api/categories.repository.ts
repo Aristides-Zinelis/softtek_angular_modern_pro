@@ -1,5 +1,4 @@
-import { HttpClient } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { Category } from "@domain/category.type";
 import { Observable, of } from "rxjs";
 
@@ -7,7 +6,6 @@ import { Observable, of } from "rxjs";
   providedIn: "root",
 })
 export class CategoriesRepositoryService {
-  private http = inject(HttpClient);
   private fakeData: Category[] = [
     {
       id: 1,
