@@ -9,4 +9,8 @@ export const routes: Routes = [
     path: "assets/edit/:id",
     loadComponent: () => import("./routes/assets/edit/edit.page"),
   },
+  {
+    path: "assets/new",
+    loadComponent: () => import("./routes/assets/new/new.page"),
+  },
 ];

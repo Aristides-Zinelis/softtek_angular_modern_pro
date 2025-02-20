@@ -1,12 +1,14 @@
 import { Component, computed, inject, ResourceStatus } from "@angular/core";
 import { rxResource } from "@angular/core/rxjs-interop";
+import { RouterLink } from "@angular/router";
 import { AssetsListComponent } from "./assets-list.component";
 import { AssetsService } from "./assets.service";
 
 @Component({
   selector: "lab-home",
-  imports: [AssetsListComponent],
-  template: `<lab-assets-list [assets]="assets()" />`,
+  imports: [AssetsListComponent, RouterLink],
+  template: `<lab-assets-list [assets]="assets()" />
+    <p>Add a <a routerLink="/assets/new">new asset</a></p> `,
   styles: ``,
 })
 export default class HomePage {

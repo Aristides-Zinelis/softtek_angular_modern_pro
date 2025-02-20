@@ -27,8 +27,9 @@ export default class EditPage {
   protected assetValue = computed(() => this.asset.value() || NULL_ASSET);
 
   protected updateAsset = (asset: Asset) => {
-    this.assetService.updateAsset$(asset);
-    this.router.navigate(["/"]);
+    this.assetService
+      .updateAsset$(asset)
+      .subscribe(() => this.router.navigate(["/"]));
   };
 
   private router = inject(Router);
