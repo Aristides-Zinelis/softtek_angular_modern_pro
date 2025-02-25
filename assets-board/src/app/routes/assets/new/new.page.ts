@@ -2,12 +2,12 @@ import { JsonPipe } from "@angular/common";
 import { Component, computed, inject } from "@angular/core";
 import { NULL_ASSET } from "@domain/asset.type";
 import { AssetFormComponent } from "./asset-form.component";
-import { AssetService } from "./asset.service";
+import { NewAssetService } from "./new-asset.service";
 
 @Component({
   selector: "lab-new",
   imports: [AssetFormComponent, JsonPipe],
-  providers: [AssetService],
+  providers: [NewAssetService],
   template: `
     <article>
       <header>Add a new Asset</header>
@@ -22,7 +22,7 @@ import { AssetService } from "./asset.service";
   styles: ``,
 })
 export default class NewPage {
-  private assetService = inject(AssetService);
+  private assetService = inject(NewAssetService);
   protected newAsset = { ...NULL_ASSET };
   private savedAsset = this.assetService.savedAsset;
   protected savedAssetValue = computed(() => this.savedAsset().value);

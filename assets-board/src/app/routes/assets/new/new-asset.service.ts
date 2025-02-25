@@ -4,7 +4,7 @@ import { AssetsRepository } from "app/api/assets.repository";
 import { OperationStore } from "app/state/operation.store";
 
 @Injectable()
-export class AssetService {
+export class NewAssetService {
   private assetRepository = inject(AssetsRepository);
 
   private operationStore = new OperationStore<Asset>((asset) =>

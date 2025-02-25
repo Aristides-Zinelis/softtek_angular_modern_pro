@@ -31,7 +31,7 @@ export class AssetsRepository {
   ];
 
   public getAll$(): Observable<Asset[]> {
-    return of(this.fakeData).pipe(delay(2000));
+    return of(this.fakeData).pipe(delay(500));
   }
 
   public getById$(id: number): Observable<Asset> {
