@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  effect,
   inject,
   input,
   linkedSignal,
@@ -8,6 +9,7 @@ import {
 } from "@angular/core";
 import { rxResource } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
+import { Router } from "@angular/router";
 import { OpenExRatesRepository } from "app/api/open-ex-rates.repository";
 import CurrencySearchComponent from "./currency-search.component";
 
@@ -23,14 +25,18 @@ import CurrencySearchComponent from "./currency-search.component";
 export default class CurrenciesPage {
   public to = input<string>("");
   private oerRepo = inject(OpenExRatesRepository);
-
+  private router = inject(Router);
   protected currencySymbol = linkedSignal({
     source: this.to,
     computation: () => this.to(),
   });
+  private onCurrencySymbolChange = effect(() => {
+    const currencySymbol = this.currencySymbol();
+    this.router.navigate([], { queryParams: { to: currencySymbol } });
+  });
   protected amount = model(1);
   private dollarsResource = rxResource({
-    request: () => this.currencySymbol(),
+    request: () => this.currencySymbol().toUpperCase(),
     loader: (params) => this.oerRepo.getDollarsForCurrency$(params.request),
   });
 
