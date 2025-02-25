@@ -1,5 +1,5 @@
 import { JsonPipe } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { Component, computed, inject } from "@angular/core";
 import { NULL_ASSET } from "@domain/asset.type";
 import { AssetFormComponent } from "./asset-form.component";
 import { AssetService } from "./asset.service";
@@ -16,17 +16,18 @@ import { AssetService } from "./asset.service";
         </lab-asset-form>
       </main>
     </article>
-    <pre>{{ savedAsset() | json }} </pre>
-    <pre>{{ savedAssetError() }} </pre>
+    <pre>{{ savedAssetValue() | json }} </pre>
+    <pre>Error: {{ savedAssetError() }} </pre>
   `,
   styles: ``,
 })
 export default class NewPage {
   private assetService = inject(AssetService);
   protected newAsset = { ...NULL_ASSET };
-  protected savedAsset = this.assetService.savedAsset;
-  protected savedAssetError = this.assetService.savedAssetError;
+  private savedAsset = this.assetService.savedAsset;
+  protected savedAssetValue = computed(() => this.savedAsset().value);
+  protected savedAssetError = computed(() => this.savedAsset().error);
   protected saveAsset() {
-    this.assetService.saveAsset.next(this.newAsset);
+    this.assetService.saveAsset(this.newAsset);
   }
 }
