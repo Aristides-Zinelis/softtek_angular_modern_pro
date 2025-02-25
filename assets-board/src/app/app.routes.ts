@@ -13,4 +13,8 @@ export const routes: Routes = [
     path: "assets/new",
     loadComponent: () => import("./routes/assets/new/new.page"),
   },
+  {
+    path: "currencies",
+    loadComponent: () => import("./routes/currencies/currencies.page"),
+  },
 ];
