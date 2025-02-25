@@ -1,6 +1,7 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { Asset, NULL_ASSET } from "@domain/asset.type";
-import { delay, Observable, of } from "rxjs";
+import { AssetsStore } from "app/state/assets.store";
+import { delay, Observable, of, tap } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -30,8 +31,13 @@ export class AssetsRepository {
     },
   ];
 
+  private assetsStore = inject(AssetsStore);
+
   public getAll$(): Observable<Asset[]> {
-    return of(this.fakeData).pipe(delay(500));
+    return of(this.fakeData).pipe(
+      delay(500),
+      tap((assets) => this.assetsStore.setAssets(assets))
+    );
   }
 
   public getById$(id: number): Observable<Asset> {
@@ -43,12 +49,12 @@ export class AssetsRepository {
     const index = this.fakeData.findIndex((a) => a.id === asset.id);
     if (!index) return of(NULL_ASSET);
     this.fakeData[index] = asset;
-    return of(asset);
+    return of(asset).pipe(tap((a) => this.assetsStore.updateAsset(a)));
   }
 
   public post$(asset: Asset): Observable<Asset> {
     const newAsset = { ...asset, id: this.fakeData.length + 1 };
     this.fakeData.push(newAsset);
-    return of(newAsset);
+    return of(newAsset).pipe(tap((a) => this.assetsStore.addAsset(a)));
   }
 }

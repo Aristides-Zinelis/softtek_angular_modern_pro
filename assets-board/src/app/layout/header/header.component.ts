@@ -1,10 +1,11 @@
 import { Component, input } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { ThemeToggleComponent } from "./theme-toggle.component";
+import { TotalAmountComponent } from "./total-amount.component";
 
 @Component({
   selector: "lab-header",
-  imports: [RouterLink, ThemeToggleComponent],
+  imports: [RouterLink, ThemeToggleComponent, TotalAmountComponent],
   template: `
     <header>
       <nav>
@@ -16,6 +17,9 @@ import { ThemeToggleComponent } from "./theme-toggle.component";
           </li>
         </ul>
         <ul>
+          <li>
+            <lab-total-amount />
+          </li>
           <li>
             <lab-theme-toggle />
           </li>
