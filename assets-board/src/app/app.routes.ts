@@ -17,4 +17,8 @@ export const routes: Routes = [
     path: "currencies",
     loadComponent: () => import("./routes/currencies/currencies.page"),
   },
+  {
+    path: "stocks",
+    loadComponent: () => import("./routes/stocks/stocks.page"),
+  },
 ];

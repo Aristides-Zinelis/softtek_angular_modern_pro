@@ -4,7 +4,7 @@ import { Company } from "@domain/company.type";
 import { Profile } from "@domain/profile.type";
 import { Quote } from "@domain/quote.type";
 import { environment } from "environments/environment.development";
-import { delay, forkJoin, map, mergeMap, Observable, of, tap } from "rxjs";
+import { concatMap, delay, forkJoin, map, Observable, of, tap } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -19,7 +19,7 @@ export class FmpRepository {
   private httpParams = new HttpParams().set("apikey", this.apiKey);
   private httpOptions = { params: this.httpParams };
 
-  public getDowJonesConstituent$(): Observable<Company[]> {
+  public getDowJonesCompanies$(): Observable<Company[]> {
     const cacheKey = "dowjones_constituent";
     // Cache the result at local storage
     const stored = localStorage.getItem(cacheKey);
@@ -35,17 +35,9 @@ export class FmpRepository {
     return result;
   }
 
-  public forkJoinQuotesForDowJonesConstituent$(): Observable<Quote[]> {
-    const constituents$ = this.getDowJonesConstituent$();
-    return constituents$.pipe(
-      map((c) => c.map((c) => c.symbol)),
-      mergeMap((symbols) =>
-        forkJoin(symbols.map((symbol) => this.getQuote$(symbol)))
-      )
-    );
-  }
-
   public getProfile$(symbol: string): Observable<Profile> {
+    console.log(symbol);
+    //return of({} as Profile);
     // cache the result at local storage
     const cacheKey = "profile_" + symbol;
     const stored = localStorage.getItem(cacheKey);
@@ -60,6 +52,17 @@ export class FmpRepository {
         tap((data) => localStorage.setItem(cacheKey, JSON.stringify(data))),
         delay(Math.random() * this.delayMs)
       );
+  }
+
+  public getProfiles$(): Observable<Profile[]> {
+    return this.getDowJonesCompanies$().pipe(
+      map((symbols) => symbols.slice(0, 10)),
+      concatMap((companies) => {
+        return forkJoin(
+          companies.map((company) => this.getProfile$(company.symbol))
+        );
+      })
+    );
   }
 
   public getQuote$(symbol: string): Observable<Quote> {

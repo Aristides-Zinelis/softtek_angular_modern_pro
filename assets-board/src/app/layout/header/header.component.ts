@@ -24,6 +24,9 @@ import { TotalAmountComponent } from "./total-amount.component";
             <a routerLink="/currencies">Currencies</a>
           </li>
           <li>
+            <a routerLink="/stocks">Stocks</a>
+          </li>
+          <li>
             <lab-theme-toggle />
           </li>
         </ul>
