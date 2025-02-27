@@ -1,10 +1,20 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Company } from "@domain/company.type";
-import { Profile } from "@domain/profile.type";
+import { MiniProfile, Profile } from "@domain/profile.type";
 import { Quote } from "@domain/quote.type";
 import { environment } from "environments/environment.development";
-import { concatMap, delay, forkJoin, map, Observable, of, tap } from "rxjs";
+import {
+  concatMap,
+  delay,
+  forkJoin,
+  from,
+  map,
+  mergeMap,
+  Observable,
+  of,
+  tap,
+} from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -14,7 +24,7 @@ export class FmpRepository {
   private fmp = environment.financialModelingPrep;
   private url = this.fmp.apiUrl;
   private apiKey = this.fmp.apiKey;
-  private delayMs = 500;
+  private delayMs = 0;
 
   private httpParams = new HttpParams().set("apikey", this.apiKey);
   private httpOptions = { params: this.httpParams };
@@ -54,13 +64,27 @@ export class FmpRepository {
       );
   }
 
-  public getProfiles$(): Observable<Profile[]> {
+  public getProfiles$(): Observable<MiniProfile[]> {
     return this.getDowJonesCompanies$().pipe(
       map((symbols) => symbols.slice(0, 10)),
       concatMap((companies) => {
         return forkJoin(
           companies.map((company) => this.getProfile$(company.symbol))
         );
+      }),
+      map((profiles) =>
+        profiles.map((profile) => ({
+          symbol: profile.symbol,
+          ceo: profile.ceo,
+        }))
+      )
+    );
+  }
+
+  public getQuotes$(companies: string[]): Observable<Quote> {
+    return from(companies).pipe(
+      mergeMap((company) => {
+        return this.getQuote$(company);
       })
     );
   }
@@ -77,6 +101,7 @@ export class FmpRepository {
       .get<any[]>(this.url + "quote/" + symbol, this.httpOptions)
       .pipe(
         map((quotes) => quotes[0]),
+        delay(Math.random() * this.delayMs),
         tap((quote) => localStorage.setItem(cacheKey, JSON.stringify(quote)))
       );
   }

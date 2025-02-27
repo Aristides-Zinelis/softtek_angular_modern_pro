@@ -1,14 +1,19 @@
-import { JsonPipe } from "@angular/common";
-import { Component, computed, inject } from "@angular/core";
+import { CurrencyPipe } from "@angular/common";
+import { Component, computed, effect, inject, signal } from "@angular/core";
 import { rxResource } from "@angular/core/rxjs-interop";
+import { Quote } from "@domain/quote.type";
 import { FmpRepository } from "app/api/fmp.repository";
 
 @Component({
   selector: "app-stocks",
-  imports: [JsonPipe],
+  imports: [CurrencyPipe],
   template: `
     <h2>Stocks</h2>
-    <pre>{{ companiesValue() | json }}</pre>
+    <ul>
+      @for(company of companiesValue(); track company.symbol) {
+      <li>{{ company.symbol }} - {{ company.ceo }} </li>
+      }
+    </ul>
   `,
 })
 export default class StocksPage {
@@ -16,5 +21,15 @@ export default class StocksPage {
   protected companiesValue = computed(() => this.companies.value());
   private companies = rxResource({
     loader: () => this.finService.getProfiles$(),
+  });
+
+  private quotes = signal<Quote[]>([]);
+
+  private afterCompanies = effect(() => {
+    const companies = this.companiesValue();
+    if (!companies) return;
+    this.finService
+      .getQuotes$(companies.map((c) => c.symbol))
+      .subscribe((quote) => this.quotes.update((state) => [...state, quote]));
   });
 }
