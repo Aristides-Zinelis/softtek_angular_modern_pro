@@ -10,7 +10,11 @@ import {
 @Component({
   selector: "lab-currency-search",
   imports: [],
-  template: `<input #inputCurrency type="text" placeholder="Your currency" />`,
+  template: `<input
+    #inputCurrency
+    type="text"
+    placeholder="Your currency"
+    [value]="currencySymbol()" />`,
 })
 export default class CurrencySearchComponent {
   public currencySymbol = model("");

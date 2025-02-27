@@ -5,7 +5,7 @@ import {
   inject,
   input,
   linkedSignal,
-  model,
+  signal,
 } from "@angular/core";
 import { rxResource } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
@@ -26,15 +26,17 @@ export default class CurrenciesPage {
   public to = input<string>("");
   private oerRepo = inject(OpenExRatesRepository);
   private router = inject(Router);
+
   protected currencySymbol = linkedSignal({
-    source: this.to,
-    computation: () => this.to(),
+    source: signal(""),
+    computation: () => this.to() || "USD",
   });
+
   private onCurrencySymbolChange = effect(() => {
     const currencySymbol = this.currencySymbol();
     this.router.navigate([], { queryParams: { to: currencySymbol } });
   });
-  protected amount = model(1);
+  protected amount = signal<number>(19);
   private dollarsResource = rxResource({
     request: () => this.currencySymbol().toUpperCase(),
     loader: (params) => this.oerRepo.getDollarsForCurrency$(params.request),
