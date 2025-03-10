@@ -78,6 +78,9 @@ web_modules/
 .env.test.local
 .env.production.local
 .env.local
+# Angular environment files
+**/src/environments
+
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -128,3 +131,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# angular environment variables
+assets-board/src/environments/environment.development.ts
+assets-board/src/environments/environment.ts

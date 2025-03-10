@@ -4,14 +4,15 @@ import { DollarRate } from "@domain/dollar-rate.type";
 import { environment } from "environments/environment";
 import { map, Observable } from "rxjs";
 
-const url = "https://openexchangerates.org/api/latest.json";
+const url = `${environment.openExRates.apiUrl}/latest.json`;
+const apiKey = environment.openExRates.apiKey;
 
 @Injectable({
   providedIn: "root",
 })
 export class OpenExRatesRepository {
   private http = inject(HttpClient);
-  private httpParams = new HttpParams().set("app_id", environment.apiKey);
+  private httpParams = new HttpParams().set("app_id", apiKey);
 
   /**
    * Fetches the latest dollar rate for a given currency symbol.
