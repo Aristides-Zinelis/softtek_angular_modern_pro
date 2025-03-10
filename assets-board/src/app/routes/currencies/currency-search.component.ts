@@ -18,6 +18,9 @@ import {
       [value]="currencySymbol()" />`,
 })
 export default class CurrencySearchComponent {
+  /**
+   * The currency symbol, which is an input attribute.
+   */
   public currencySymbol = model("");
   private inputCurrencyElement =
     viewChild<ElementRef<HTMLInputElement>>("inputCurrency");
