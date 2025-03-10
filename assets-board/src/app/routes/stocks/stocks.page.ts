@@ -8,34 +8,52 @@ import { FmpRepository } from "app/api/fmp.repository";
   selector: "app-stocks",
   imports: [CurrencyPipe],
   template: `
-    <h2>Stocks</h2>
-    <ul>
-      @for(company of companiesValue(); track company.symbol) {
-      <li>{{ company.symbol }} - {{ company.ceo }} </li>
-      }
-    </ul>
-    <h3>Quotes</h3>
-    <ul>
-      @for(quote of quotes(); track quote.symbol) {
-      <li>{{ quote.symbol }} - {{ quote.price | currency }}</li>
-      }
-    </ul>
+    <article>
+      <header>
+        <h2>Top 10 older DowJones Stocks companies</h2>
+        <p>Appears in seniority order </p>
+      </header>
+      <ul>
+        @for(profile of profiles(); track profile.symbol) {
+        <li
+          >{{ profile.symbol }} - {{ profile.ceo }} -
+          {{ profile.website }}
+        </li>
+        }
+      </ul>
+    </article>
+    <article>
+      <header>
+        <h3>Latest Stock Quotes in Dollars</h3>
+        <p>Appears in order of retrieval </p>
+      </header>
+      <ul>
+        @for(quote of quotes(); track quote.symbol) {
+        <li
+          >{{ quote.symbol }} - {{ quote.name }} -
+          {{ quote.price | currency }}</li
+        >
+        }
+      </ul>
+    </article>
   `,
 })
 export default class StocksPage {
-  private finService = inject(FmpRepository);
-  protected companiesValue = computed(() => this.companies.value());
-  private companies = rxResource({
-    loader: () => this.finService.getProfiles$(),
+  private fmpRepository = inject(FmpRepository);
+  protected profiles = computed(() => this.profilesResource.value());
+  private profilesResource = rxResource({
+    loader: () => this.fmpRepository.getProfiles$(),
   });
 
   protected quotes = signal<Quote[]>([]);
 
-  private afterCompanies = effect(() => {
-    const companies = this.companiesValue();
-    if (!companies) return;
-    this.finService
-      .getQuotes$(companies.map((c) => c.symbol))
+  private afterProfiles = effect(() => {
+    const profiles = this.profiles();
+    if (!profiles) return;
+    // Las cotizaciones llegan de una en una, en orden aleatorio
+    // y se van añadiendo a la lista de cotizaciones
+    this.fmpRepository
+      .getQuotes$(profiles.map((c) => c.symbol))
       .subscribe((quote) => this.quotes.update((state) => [...state, quote]));
   });
 }

@@ -1,5 +1,3 @@
-import { Quote } from "./quote.type";
-
 /**
  * Ficha grande de una empresa cotizada
  */
@@ -15,8 +13,11 @@ export type Profile = {
   mktCap: number;
 };
 
+/**
+ * Ficha pequeña de una empresa cotizada
+ */
 export type MiniProfile = {
   symbol: string;
   ceo: string;
-  quote?: Quote;
+  website: string;
 };
