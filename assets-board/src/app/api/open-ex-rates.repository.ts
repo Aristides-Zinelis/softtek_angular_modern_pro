@@ -21,7 +21,7 @@ export class OpenExRatesRepository {
   public getRateForDollarBySymbol$(symbol: string): Observable<number> {
     const params = this.httpParams
       .set("symbols", symbol)
-      .set("show_alternative", "true"); // to include ethereum and other currencies
+      .set("show_alternative", "true"); // include Ethereum and other currencies
     return this.http
       .get<DollarRate>(url, { params })
       .pipe(map((data: any) => data.rates[symbol] || 1));

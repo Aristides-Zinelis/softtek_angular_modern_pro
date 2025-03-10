@@ -12,7 +12,7 @@ import { AssetsService } from "./assets.service";
     @switch(assetsStatus()) { @case('Loading') {
     <aside aria-busy="true">Loading...</aside>
     } @case('Resolved') { @defer(){
-    <lab-assets-list [assets]="assets()" />
+    <lab-assets-list [assets]="assets()" [categories]="categories()" />
     } } }
     <p>Add a <a routerLink="/assets/new">new asset</a></p>
   `,
@@ -27,7 +27,14 @@ export default class HomePage {
   private assetsResource = rxResource({
     loader: () => this.assetsService.getAssets$(),
   });
+  protected categories = computed(() => this.categoriesResource.value() || []);
+  private categoriesResource = rxResource({
+    loader: () => this.categoriesService.getCategories$(),
+  });
+
   private assetsService = inject(AssetsService);
+
+  private categoriesService = inject(AssetsService);
 
   constructor(logger: LoggerService) {
     logger.log("Home page loaded");

@@ -19,6 +19,30 @@ export class CategoriesRepositoryService {
       risk: "Low",
       liquidity: "Low",
     },
+    {
+      id: 3,
+      name: "Commodities",
+      risk: "Low",
+      liquidity: "High",
+    },
+    {
+      id: 4,
+      name: "Stocks",
+      risk: "High",
+      liquidity: "High",
+    },
+    {
+      id: 5,
+      name: "Bonds",
+      risk: "Low",
+      liquidity: "Low",
+    },
+    {
+      id: 6,
+      name: "Cash",
+      risk: "Low",
+      liquidity: "High",
+    },
   ];
 
   public getAll$(): Observable<Category[]> {
