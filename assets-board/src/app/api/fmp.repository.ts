@@ -91,7 +91,6 @@ export class FmpRepository {
    * @returns Un observable del perfil de la empresa
    */
   private getProfile$(symbol: string): Observable<Profile> {
-    console.log(symbol);
     const cacheKey = "profile_" + symbol;
     const stored = localStorage.getItem(cacheKey);
     const cached = stored ? (JSON.parse(stored) as Profile) : null;

@@ -4,7 +4,7 @@ import { DollarRate } from "@domain/dollar-rate.type";
 import { environment } from "environments/environment";
 import { map, Observable } from "rxjs";
 
-const url = `${environment.openExRates.apiUrl}/latest.json`;
+const url = `${environment.openExRates.apiUrl}latest.json`;
 const apiKey = environment.openExRates.apiKey;
 
 @Injectable({
