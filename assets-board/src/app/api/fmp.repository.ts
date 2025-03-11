@@ -28,7 +28,7 @@ export class FmpRepository {
   private fmp = environment.financialModelingPrep;
   private url = this.fmp.apiUrl;
   private apiKey = this.fmp.apiKey;
-  private delayMs = 1000;
+  private delayMs = 5000;
 
   private httpParams = new HttpParams().set("apikey", this.apiKey);
   private httpOptions = { params: this.httpParams };

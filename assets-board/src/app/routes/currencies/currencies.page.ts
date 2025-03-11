@@ -81,3 +81,19 @@ export default class CurrenciesPage {
     () => this.amount() * this.currencyDollarsValue()
   );
 }
+
+/**
+ *
+ * GET
+ *
+ * resource : api -> promises(fetch) -> signals -> ui
+ *
+ * rxResource : api -> observables(httpClient) -> signals -> ui
+ *
+ * httpResource: api -> string/function -> signals -> ui
+ *
+ *
+ * POST PUT DELETE
+ *
+ * httpClient ui -> httpClient -> api -> observable -> toSignal - > signals -> ui
+ */
