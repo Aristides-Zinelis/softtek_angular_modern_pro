@@ -1,11 +1,11 @@
 {
-  "name": "lab-ui",
+  "name": "@lab/ui",
   "description": "UI Library with page component",
   "author": {
     "name": "Alberto",
     "email": "alberto@softtek.com"
   },
-  "version": "0.0.3",
+  "version": "0.0.4",
   "peerDependencies": {
     "@angular/common": "19.*.*",
     "@angular/core": "19.*.*"
