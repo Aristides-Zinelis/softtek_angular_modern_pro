@@ -20,7 +20,7 @@
     "baseUrl": "./src",
     "paths": {
       "@domain/*": ["domain/*"],
-      "@ui/*": ["app/shared/ui/*"],
+      "@ui/*": ["../lab-ui-ws/dist/lab-ui/*"],
       "@db/*": ["db/*"],
       "@layout/*": ["app/core/layout/*"]
     }
