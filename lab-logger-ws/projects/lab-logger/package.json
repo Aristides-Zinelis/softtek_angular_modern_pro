@@ -1,11 +1,11 @@
 {
-  "name": "@lab/ui",
-  "description": "UI Library with page component",
+  "name": "@lab/logger",
+  "description": "Logger Library with page component",
   "author": {
     "name": "Alberto Basalo",
     "email": "albertobasalo@hotmail.com"
   },
-  "version": "0.0.5",
+  "version": "0.1.2",
   "peerDependencies": {
     "@angular/common": "19.*.*",
     "@angular/core": "19.*.*"

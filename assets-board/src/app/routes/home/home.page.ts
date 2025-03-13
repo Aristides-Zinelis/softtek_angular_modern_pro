@@ -1,8 +1,8 @@
 import { Component, computed, inject, ResourceStatus } from "@angular/core";
 import { rxResource } from "@angular/core/rxjs-interop";
 import { RouterLink } from "@angular/router";
+import { LoggerService } from "@lab/logger";
 import { PageComponent } from "@lab/ui";
-import { LoggerService } from "app/logger/logger.service";
 import { AssetsListComponent } from "./assets-list.component";
 import { AssetsService } from "./assets.service";
 

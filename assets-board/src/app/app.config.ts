@@ -5,9 +5,8 @@ import {
 import { provideRouter, withComponentInputBinding } from "@angular/router";
 
 import { provideHttpClient } from "@angular/common/http";
+import { provideLogger, withAppName } from "@lab/logger";
 import { routes } from "./app.routes";
-import { withAppName } from "./logger/app-name.token";
-import { provideLogger } from "./logger/logger.provider";
 
 export const appConfig: ApplicationConfig = {
   providers: [
