@@ -1,3 +1,4 @@
+import { loadRemoteModule } from "@angular-architects/native-federation";
 import { Routes } from "@angular/router";
 
 export const routes: Routes = [
@@ -19,6 +20,12 @@ export const routes: Routes = [
   },
   {
     path: "stocks",
-    loadComponent: () => import("./routes/stocks/stocks.page"),
+    // loadComponent: () => import("./routes/stocks/stocks.page"),
+    loadComponent: () =>
+      loadRemoteModule({
+        remoteEntry: "http://localhost:4201/remoteEntry.js",
+        remoteName: "assets-stocks",
+        exposedModule: "./StocksPage",
+      }).then((m) => m.StocksPageComponent),
   },
 ];
