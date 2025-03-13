@@ -20,6 +20,8 @@
     "@lab/domain": "^0.0.1",
     "@lab/logger": "^0.1.2",
     "@lab/ui": "^0.0.5",
+    "@softarc/native-federation-node": "^2.0.10",
+    "es-module-shims": "^1.5.12",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
