@@ -13,5 +13,21 @@
     "typescript": "~5.7.2",
     "vite": "^6.2.0",
     "vite-plugin-dts": "^4.5.3"
+  },
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
+    }
+  },
+  "files": [
+    "/dist"
+  ],
+  "publishConfig": {
+    "access": "public"
   }
 }
