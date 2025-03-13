@@ -11,6 +11,7 @@ import {
 import { rxResource } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
+import { Currency } from "@lab/domain";
 import { OpenExRatesRepository } from "app/api/open-ex-rates.repository";
 import CurrencySearchComponent from "./currency-search.component";
 
@@ -80,6 +81,10 @@ export default class CurrenciesPage {
   protected dollars = computed(
     () => this.amount() * this.currencyDollarsValue()
   );
+
+  constructor() {
+    const myWallet = new Currency(100, "EUR");
+  }
 }
 
 /**
