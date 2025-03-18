@@ -2,7 +2,6 @@
  * A Currency Value Object with validation and formatting
  */
 export class Currency {
-
   constructor(private readonly value: number, private readonly symbol: string) {
     if (value < 0) {
       throw new Error("Currency value cannot be negative");
@@ -37,12 +36,15 @@ export class Currency {
    * @returns {string} The formatted currency value
    */
   toLongString(): string {
-    return `${this.value.toLocaleString(undefined, {
+    return `${this.value.toLocaleString(undefined, this.getIntOptions())}`;
+  }
+
+  private getIntOptions(): Intl.NumberFormatOptions {
+    return {
       style: "currency",
       currency: this.symbol,
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
-    })}`;
+    };
   }
-
 }
