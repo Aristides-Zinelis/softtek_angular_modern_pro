@@ -1,4 +1,12 @@
-import { Component, computed, inject, ResourceStatus } from "@angular/core";
+import { loadRemoteModule } from "@angular-architects/native-federation";
+import {
+  Component,
+  computed,
+  inject,
+  ResourceStatus,
+  viewChild,
+  ViewContainerRef,
+} from "@angular/core";
 import { rxResource } from "@angular/core/rxjs-interop";
 import { RouterLink } from "@angular/router";
 import { LoggerService } from "@lab/logger";
@@ -20,8 +28,9 @@ import { AssetsService } from "./assets.service";
         <p>Add a <a routerLink="/assets/new">new asset</a></p>
       </footer>
     </lab-ui-page>
+
+    <aside #placeholder></aside>
   `,
-  styles: ``,
 })
 export default class HomePage {
   protected assets = computed(() => this.assetsResource.value() || []);
@@ -41,7 +50,21 @@ export default class HomePage {
 
   private categoriesService = inject(AssetsService);
 
+  protected placeholderRef = viewChild("placeholder", {
+    read: ViewContainerRef,
+  });
+
   constructor(logger: LoggerService) {
     logger.log("Home page loaded");
+    this.loadRemote();
+  }
+
+  async loadRemote() {
+    const remoteModule = await loadRemoteModule({
+      remoteEntry: "http://localhost:4201/remoteEntry.js",
+      remoteName: "assets-stocks",
+      exposedModule: "./StocksPage",
+    });
+    this.placeholderRef()?.createComponent(remoteModule.StocksPageComponent);
   }
 }
