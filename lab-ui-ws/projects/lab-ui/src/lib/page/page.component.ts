@@ -15,7 +15,7 @@ export class PageComponent {
    * The title of the page.
    * @throws Required
    */
-  public pageTitle: InputSignal<string> = input<string>('The title');
+  public pageTitle: InputSignal<string> = input.required<string>();
 
   /**
    * The subtitle of the page.
